@@ -27,23 +27,37 @@ class Comment extends Model
         return $this->hasOne(User::class);
     }
 
+    /**
+     * add status allow (одобрити коментар)
+     */
     public function allow()
     {
         $this->status = Comment::ALLOW;
         $this->save();
     }
 
+    /**
+     * add status desallo (не одобрити коментар)
+     */
     public function disallow()
     {
         $this->status = Comment::DISALLOW;
         $this->save();
     }
 
+    /**
+     * allow|disallow toggle comments (перемикач ' одобрити чи не одобрити коментарій)
+     */
     public function toggleStatus()
     {
         return ($this->status == Comment::DISALLOW)?$this->allow():$this->disallow();
     }
 
+    /**
+     * @throws \Exception
+     * delete comments
+     * (Видалити коментарій з бази)
+     */
     public function remove()
     {
         $this->delete();

@@ -7,6 +7,11 @@ use Illuminate\Support\Str;
 
 class Subscription extends Model
 {
+    /**
+     * (Добавити підпиздщика )
+     * @param $email
+     * @return Subscription
+     */
     public static function add($email)
     {
         $sub = new static;
@@ -15,6 +20,12 @@ class Subscription extends Model
         $sub->save();
         return $sub;
     }
+
+    /**
+     * (Видалити підписку)
+     * delete subscription
+     * @throws \Exception
+     */
 
     public function remove()
     {

@@ -54,7 +54,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Коментарі даного юзера
+     * (Зв'язок з коментарями  даного юзера, з моделлю Comment)
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
 
@@ -63,6 +63,12 @@ class User extends Authenticatable
         return $this->hasMany(Comment::class);
     }
 
+    /**
+     * add data users & save password hash
+     * (Добавляє користувача, дані fillable (email,name,password) і хешує пароль)
+     * @param $fields
+     * @return User
+     */
     public static function add($fields)
     {
         $user = new static;
@@ -72,6 +78,11 @@ class User extends Authenticatable
         return $user;
     }
 
+    /**
+     * update data users & update password hash
+     * (Обновляє користувача, дані fillable (email,name,password) і обновляє хеш паролю)
+     * @param $fields
+     */
     public function edit($fields)
     {
         $this->fill($fields);
@@ -79,10 +90,25 @@ class User extends Authenticatable
         $this->save();
     }
 
+    /**
+     * Delete user data and user ava
+     * (Видаляє дані юзера і картинку)
+     * @throws \Exception
+     */
+
     public function remove()
     {
+        Storage::delete('uploads/' . $this->image);
         $this->delete();
     }
+
+    /**
+     *add user avatar end update
+     * if isset last image, delete last image
+     * end save db
+     * (Завантажує або обновлює аву)
+     * @param $image
+     */
 
     public function uploadAvatar($image)
     {
@@ -94,6 +120,11 @@ class User extends Authenticatable
         $this->save();// зберігаємо імя картинки в базу
     }
 
+    /**
+     * get image path|path no_image
+     * (Виводить зображення, або заглушку )
+     * @return string
+     */
     public function getAvatar()
     {
         if ($this->image == null) {
@@ -102,12 +133,19 @@ class User extends Authenticatable
         return '/uploads/' . $this->image;
     }
 
+    /**
+     * add status admin current user
+     */
+
     public function thisAdmin()
     {
         $this->is_admin = User::IS_ADMIN;
         $this->save();
     }
 
+    /**
+     * remove status admin current user
+     */
     public function thisNormal()
     {
         $this->is_admin = User::IS_NORMAL;
@@ -120,11 +158,18 @@ class User extends Authenticatable
         else return  $this->thisAdmin();
     }
 
+    /**
+     * ban user
+     */
     public function ban()
     {
          $this->status = User::IS_BANED;
          $this->save();
     }
+
+    /**
+     * unban user
+     */
 
     public function unban()
     {
@@ -132,6 +177,10 @@ class User extends Authenticatable
          $this->save();
     }
 
+    /**
+     * @param $value
+     * toggle ban|unban current user
+     */
     public function toggleBan($value)
     {
         return ($value == null)?$this->unban():$this->ban();
