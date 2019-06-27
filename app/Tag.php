@@ -9,6 +9,8 @@ class Tag extends Model
 {
     use Sluggable;
 
+    protected $fillable = ['title'];
+
     /**
      * (Звязок таблиці post i tag через таблицю post_tags
      * по id )
