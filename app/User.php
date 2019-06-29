@@ -105,7 +105,7 @@ class User extends Authenticatable
 
     public function remove()
     {
-        Storage::delete('uploads/' . $this->image);
+        Storage::delete('uploads/' . $this->avatar);
         $this->delete();
     }
 
@@ -120,7 +120,7 @@ class User extends Authenticatable
     public function uploadAvatar($image)
     {
         if ($image == null) return;
-        Storage::delete('uploads/' . $this->avatar);//storage видаляє картинку в папці, якшо вона існує
+        $this->removeAvatar();//storage видаляє картинку в папці, якшо вона існує
         $filename = Str::random(10) . '.' . $image->extension();//потім створюється імя нової картинки
         $image->storeAs('uploads', $filename);//зберігаємо файл в папку
         $this->avatar = $filename;// завантажуємо імя нового файла в поле image
@@ -138,6 +138,13 @@ class User extends Authenticatable
             return '/img/no-user-image.png';
         }
         return '/uploads/' . $this->avatar;
+    }
+
+    public function removeAvatar()
+    {
+        if ($this->avatar != null){
+            Storage::delete('uploads/' . $this->avatar);
+        }
     }
 
     /**

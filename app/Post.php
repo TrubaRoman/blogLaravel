@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Support\Facades\Storage;
@@ -14,7 +15,7 @@ class Post extends Model
     const IS_PUBLIC = 1;
     const IS_DRAFT = 0;
 
-    protected $fillable = ['title','content'];
+    protected $fillable = ['title','content','date'];
 
 
     /**
@@ -23,7 +24,7 @@ class Post extends Model
      */
     public function category()
     {
-        return $this->hasOne(Category::class);
+        return $this->belongsTo(Category::class);
     }
 
     /**
@@ -33,8 +34,10 @@ class Post extends Model
 
     public function author()
     {
-        return $this->hasOne(User::class);
+        return $this->belongsTo(User::class,'user_id');
     }
+
+
 
     /**
      * Звязок з тегами через звязну таблицю
@@ -76,19 +79,28 @@ class Post extends Model
 
     public function remove()
     {
-        Storage::delete('uploads/'.$this->image);//storage видаляє картинку в папці, якшо вона існує
+       $this->removeImage();//storage видаляє картинку в папці, якшо вона існує
         $this->delete();
     }
 
     public function uploadImage($image)
     {
         if($image == null)return;
-        Storage::delete('uploads/'.$this->image);//storage видаляє картинку в папці, якшо вона існує
+        $this->removeImage();//storage видаляє картинку в папці, якшо вона існує
         $filename = Str::random(10).'.'.$image->extension();//потім створюється імя нової картинки
-        $image->saveAs('uploads',$filename);//зберігаємо файл в папку
+        $image->storeAs('uploads',$filename);//зберігаємо файл в папку
         $this->image = $filename;// завантажуємо імя нового файла в поле image
         $this->save();// зберігаємо імя картинки в базу
     }
+
+    public function removeImage()
+    {
+        if ($this->image !=null)
+        {
+            Storage::delete('uploads/'.$this->image);
+        }
+    }
+
 
     public function getImage()
     {
@@ -146,7 +158,21 @@ class Post extends Model
         return ($value == null)?$this->setStandart():$this->setFeatured();
     }
 
+    public function setDateAttribute($value)
+    {
+        $date = Carbon::createFromFormat('d/m/y',$value)->format('Y-m-d');
+        $this->attributes['date'] = $date;
+    }
 
+    public function getCategoryTitle()
+    {
+        return ($this->category != null)?$this->category->title: 'Category does not exist';
+    }
+
+    public function getTagsTitles()
+    {
+        return (!$this->tags->isEmpty())?implode(', ',$this->tags->pluck('title')->all()):'Tags does not exist';
+    }
 
 
 

@@ -49,10 +49,11 @@
                                 <img src="{{$user->getAvatar()}}" alt="" class="img-responsive" width="150">
                             </td>
                             <td><a href="{{route('users.edit',$user->id)}}" class="fa fa-pencil"></a>
-                                {{Form::open(['route'=> ['users.destroy',$user->id],'method'=>'delete'])}}
-                                <button type="submit" onclick="return confirm('В дійсно хочете видалити?')" class="delete">
-                                    <i  class="fa fa-remove"></i>
+                                {{Form::open(['route'=>['users.destroy',$user->id],'method' => 'delete'])}}
+                                <button type="submit" class="delete" onclick="return confirm('А ви впевнені? ')">
+                                    <i class="fa fa-remove"></i>
                                 </button>
+                                {{Form::close()}}
                            </td>
                         </tr>
                         @endforeach
