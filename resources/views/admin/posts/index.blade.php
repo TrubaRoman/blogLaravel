@@ -18,10 +18,10 @@
 
     <!-- Main content -->
     <section class="content">
-        {{Form::open([
-            'route'=> 'posts.store',
-            'files'=> true
-            ])}}
+{{--        {{Form::open([--}}
+{{--            'route'=> 'posts.store',--}}
+{{--            'files'=> true--}}
+{{--            ])}}--}}
 
         <!-- Default box -->
         <div class="box">
@@ -57,7 +57,8 @@
                             <img src="{{$post->getImage()}}" alt="" width="100">
                         </td>
                         <td><a href="{{route('posts.edit',$post->id)}}" class="fa fa-pencil"></a>
-                            {{Form::open(['route'=>['posts.destroy',$post->id],'method'=>'delete'])}}
+
+                            {{Form::open(['route'=>['posts.destroy',$post->id],'method'=> 'delete'])}}
                             <button type="submit" onclick="return confirm('Ви впевнені')" class="delete">
                                 <i class="fa fa-remove"></i>
                             </button>
@@ -71,7 +72,7 @@
             <!-- /.box-body -->
         </div>
         <!-- /.box -->
-    {{Form::close()}}
+{{--    {{Form::close()}}--}}
     </section>
     <!-- /.content -->
 </div>

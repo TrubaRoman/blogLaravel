@@ -1,7 +1,7 @@
 @extends('admin.layout')
 
 @section('content')
-{{--    <link rel="stylesheet" href="resources/assets/admin/plugins/iCheck/all.css">--}}
+
 
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
@@ -45,7 +45,7 @@
                               null,
                             ['class' => 'form-control select2',
 
-                            'data-placeholder' => 'Виберіть категоорію'
+                            'data-placeholder' => 'Виберіть категорію'
                                ])}}
 
 
