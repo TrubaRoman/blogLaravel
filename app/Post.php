@@ -15,7 +15,7 @@ class Post extends Model
     const IS_PUBLIC = 1;
     const IS_DRAFT = 0;
 
-    protected $fillable = ['title','content','date'];
+    protected $fillable = ['title','content','date','descriptions'];
 
 
     /**
@@ -93,6 +93,9 @@ class Post extends Model
         $this->save();// зберігаємо імя картинки в базу
     }
 
+    /**
+     * delete image in dir 'uploads'
+     */
     public function removeImage()
     {
         if ($this->image !=null)
@@ -101,7 +104,10 @@ class Post extends Model
         }
     }
 
-
+    /**
+     *
+     * @return string( path image in db| path defoult image)
+     */
     public function getImage()
     {
         if($this->image == null){
@@ -110,7 +116,10 @@ class Post extends Model
         return '/uploads/'.$this->image;
     }
 
-
+    /**
+     * @param $id
+     * save category_id on current id
+     */
     public function setCategory($id)
     {
         if($id == null)return;
@@ -118,6 +127,17 @@ class Post extends Model
         $this->save();
     }
 
+    /**
+     * @return category_id |null
+     */
+    public function getCategoryID()
+    {
+        return ($this->category != null)?$this->category->id:null;
+    }
+
+    /**
+     * @param $ids
+     */
     public function setTags($ids)
     {
         if($ids == null)return;
@@ -158,6 +178,10 @@ class Post extends Model
         return ($value == null)?$this->setStandart():$this->setFeatured();
     }
 
+    /**
+     * @param $value
+     * return  set in attributes date format from 'd/m/y' on 'Y-m-d"
+     */
     public function setDateAttribute($value)
     {
         $date = Carbon::createFromFormat('d/m/y',$value)->format('Y-m-d');
@@ -170,6 +194,12 @@ class Post extends Model
         return $date;
     }
 
+    public function getDate()
+    {
+        $date = Carbon::createFromFormat('d/m/y',$this->date)->format('F d, Y');
+        return $date;
+    }
+
     public function getCategoryTitle()
     {
         return ($this->category != null)?$this->category->title: 'Category does not exist';
@@ -179,6 +209,50 @@ class Post extends Model
     {
         return (!$this->tags->isEmpty())?implode(', ',$this->tags->pluck('title')->all()):'Tags does not exist';
     }
+
+    /**
+     * @return previous id | null
+     */
+    public function hasPrevious()
+    {
+        return self::where('id','<',$this->id)->max('id');
+    }
+
+    /**
+     * @return next id | null
+     */
+
+    public function hasNext()
+    {
+        return self::where('id','>',$this->id)->min('id');
+    }
+
+    /**
+     * @return previous post on id |null
+     */
+    public function getPrevious()
+    {
+        $postID = $this->hasPrevious();
+        return self::find($postID);
+    }
+
+    /**
+     * @return  next post on id | null
+     */
+    public function getNext()
+    {
+        $postID = $this->hasNext();
+        return self::find($postID);
+    }
+
+    /**
+     * @return all posts exept current id
+     */
+    public function related()
+    {
+        return self::all()->except($this->id);
+    }
+
 
 
 

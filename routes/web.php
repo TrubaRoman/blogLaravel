@@ -11,9 +11,9 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/','HomeController@index');
+Route::get('/post/{slug}','HomeController@show')->name('post.show');
+Route::get('/tag/{slug}','HomeController@tag')->name('post.tag');
 
 Route::group(['prefix' => 'admin','namespace' => 'Admin'],function (){
     Route::get('/','DashboardController@index');
