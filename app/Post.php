@@ -253,7 +253,42 @@ class Post extends Model
         return self::all()->except($this->id);
     }
 
+    public function hasCategory()
+    {
+        return $this->category != null?true:false;
+    }
+
+    public static function getPopularPosts()
+    {
+        return self::orderBy('views','desc')->take(3)->get();
+    }
+
+    public static function getFeaturedPosts()
+    {
+        return self::where('is_featured',1)->take(3)->get();
+    }
+
+    public static function getRecentPosts()
+    {
+        return self::orderBy('date','desc')->take(4)->get();
+    }
+
+    public static function getCategories()
+    {
+        return Category::all();
+    }
 
 
+
+
+
+
+
+
+/**
+ *
+$view->with('recentPosts',Post::orderBy('date','desc')->take(4)->get());
+$view->with('categories',Category::all());
+ */
 
 }
