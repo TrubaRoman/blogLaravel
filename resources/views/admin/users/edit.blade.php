@@ -6,7 +6,7 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                Добавить пользователя
+                Редагування  користувача
                 <small>приятные слова..</small>
             </h1>
             @include('admin.errors')
@@ -23,7 +23,7 @@
                     'files'=> true
                     ])}}
                 <div class="box-header with-border">
-                    <h3 class="box-title">Добавляем пользователя</h3>
+                    <h3 class="box-title">Редагування  користувача</h3>
                 </div>
                 <div class="box-body">
                     <div class="col-md-6">
@@ -38,6 +38,10 @@
                         <div class="form-group">
                             <label for="exampleInputEmail1">Пароль</label>
                             <input type="password" class="form-control" id="exampleInputEmail1" name="password"  placeholder="">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Статус текс</label>
+                            <input type="text" class="form-control" id="exampleInputEmail1" name="status_text"  placeholder="" value="{{$user->status_text}}">
                         </div>
                         <div class="form-group">
                             <img src="{{$user->getAvatar()}}" alt="" width="200" class="img-responsive">

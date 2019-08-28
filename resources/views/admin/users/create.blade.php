@@ -36,6 +36,10 @@
                             <input type="password" name="password" class="form-control" id="exampleInputEmail1" placeholder="">
                         </div>
                         <div class="form-group">
+                            <label for="exampleInputEmail1">Статус текст</label>
+                            <input type="text" name="status_text" class="form-control" id="exampleInputEmail1" placeholder="" value="{{old('status_text')}}">
+                        </div>
+                        <div class="form-group">
                             <label for="exampleInputFile">Аватар</label>
                             <input type="file"  name="avatar" id="exampleInputFile">
 
