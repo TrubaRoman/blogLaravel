@@ -15,6 +15,8 @@ Route::get('/','HomeController@index');
 Route::get('/post/{slug}','HomeController@show')->name('post.show');
 Route::get('/tag/{slug}','HomeController@tag')->name('tag.show');
 Route::get('/category/{slug}','HomeController@category')->name('category.show');
+Route::post('/subscribe','SubController@subscribe');
+Route::get('/verify/{token}','SubController@verify');
 
 
 Route::group(['middleware' => 'guest'],function (){
@@ -41,6 +43,7 @@ Route::group(['prefix' => 'admin','namespace' => 'Admin','middleware' =>'admin']
     Route::resource('/tags','TagsController');
     Route::resource('/users','UsersController');
     Route::resource('/posts','PostsController');
+    Route::resource('/subscribers','SubscribersController');
 
 
 });

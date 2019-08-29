@@ -61,7 +61,18 @@
 
             </div>
             <!-- /.navbar-collapse -->
+            @if(session('status'))
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="alert alert-success">
+                                {{session('status')}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
+            @endif
 
             <div class="show-search">
                 <form role="search" method="get" id="searchform" action="#">

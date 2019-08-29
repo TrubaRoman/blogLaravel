@@ -16,9 +16,17 @@ class Subscription extends Model
     {
         $sub = new static;
         $sub->email = $email;
-        $sub->token = Str::random(100);
         $sub->save();
         return $sub;
+    }
+
+    /**
+     * token generate
+     */
+    public function generationsToken()
+    {
+        $this->token = Str::random(100);
+        $this->save();
     }
 
     /**

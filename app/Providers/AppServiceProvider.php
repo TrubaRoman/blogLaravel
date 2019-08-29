@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Category;
 use App\Comment;
 use App\Post;
+use App\Subscription;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 
@@ -43,6 +44,7 @@ class AppServiceProvider extends ServiceProvider
         view()->composer(
             'admin._sidebar',function($view){
             $view->with('newCommentsCount', Comment::where('status',0)->count());
+            $view->with('SubscribersCount', Subscription::where('token',null)->count());
 
 
         }

@@ -140,11 +140,11 @@
 
                         <form class="form-horizontal contact-form" role="form" method="post" action="/comment">
                             @include('errors.errors')
-                            @if(session('status'))
-                                <div class="alert alert-success">
-                                    {{session('status')}}
-                                </div>
-                            @endif
+{{--                            @if(session('status'))--}}
+{{--                                <div class="alert alert-success">--}}
+{{--                                    {{session('status')}}--}}
+{{--                                </div>--}}
+{{--                            @endif--}}
                             {{csrf_field()}}
 
 
